@@ -50,7 +50,6 @@ const ProductComponent = () => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "flex-start",
           gap: 3,
           justifyContent: "center",
         }}

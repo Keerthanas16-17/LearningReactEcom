@@ -96,9 +96,10 @@ const ProductCard = ({ product }) => {
         <Box sx={{ mt: 2 }}>
           <Button
             component={Link}
-            href={`/Location/${product.id}`}
+            href={`/Location/${product.title.toLowerCase().replaceAll(" ", "-")}`}
             variant="contained"
-            fullWidth>
+            fullWidth
+          >
             VIEW
           </Button>
         </Box>

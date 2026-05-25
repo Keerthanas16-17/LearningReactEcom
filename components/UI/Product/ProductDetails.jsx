@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProductById } from "../../../services/API/productService";
+import { fetchProducts } from "../../../services/API/productService";
 import InfoData from "../InfoData";
 import dayjs from "dayjs";
 import {
@@ -28,21 +28,22 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import { CircleLoader } from "react-spinners";
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const params = useParams();
+  const title = params.title;
+  console.log(params);
 
   const reviewId = useId();
   const [openIndex, setOpenIndex] = useState(false);
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["product", id],
-    queryFn: () => fetchProductById(id),
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
     staleTime: 5000,
     refetchOnWindowFocus: false,
   });
+
+  const product = data?.find(
+    (item) => item.title.toLowerCase().replaceAll(" ", "-") === title,
+  );
 
   // Loading
 
