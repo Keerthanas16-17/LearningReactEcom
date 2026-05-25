@@ -100,9 +100,7 @@ export default function Age() {
       >
         <Grid container spacing={2}>
           <Grid size={4}>
-            <AgeInfo fontSize="14px" fontWeight={700}>
-              DAY
-            </AgeInfo>
+            <AgeInfo sx={{ fontSize: "14px", fontWeight: "700" }}>DAY</AgeInfo>
 
             <TextField
               value={day}
@@ -134,7 +132,7 @@ export default function Age() {
           </Grid>
 
           <Grid size={4}>
-            <AgeInfo fontSize="14px" fontWeight={700}>
+            <AgeInfo sx={{ fontSize: "14px", fontWeight: "700" }}>
               Month
             </AgeInfo>
             <TextField
@@ -167,9 +165,7 @@ export default function Age() {
             />
           </Grid>
           <Grid size={4}>
-            <AgeInfo fontSize="14px" fontWeight={700}>
-              Year
-            </AgeInfo>
+            <AgeInfo sx={{ fontSize: "14px", fontWeight: "700" }}>Year</AgeInfo>
             <TextField
               value={year}
               onChange={(e) => {
