@@ -4,7 +4,14 @@ import React from "react";
 import { Card, CardContent, Button, Box } from "@mui/material";
 import Link from "next/link";
 import InfoData from "../InfoData";
-const ProductCard = ({ product }) => {
+import Image from "next/image";
+import { Product } from "@/types/product/product.type";
+
+type ProductCardProps = {
+  product: Product;
+};
+
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const colors = [
     "#FF6B6B",
     "#6BCB77",
@@ -28,7 +35,13 @@ const ProductCard = ({ product }) => {
     "#B4F8C8",
   ];
 
-  const RandomColors = colors[Math.floor(Math.random() * colors.length)];
+  const randomColors = colors[Math.floor(Math.random() * colors.length)];
+  let imageSrc = "";
+
+  if (product.images && product.images.length > 0) {
+    imageSrc = product.images[0];
+  }
+
   return (
     <Card
       sx={{
@@ -44,20 +57,21 @@ const ProductCard = ({ product }) => {
       <Box
         sx={{
           height: 260,
-          background: RandomColors,
+          background: randomColors,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           p: 2,
         }}
       >
-        <img
-          src={product.images?.[0]}
+        <Image
+          src={imageSrc}
           alt={product.title}
+          width={180}
+          height={180}
+          priority
           style={{
             objectFit: "contain",
-            width: "180",
-            height: "180",
           }}
         />
       </Box>
@@ -96,7 +110,7 @@ const ProductCard = ({ product }) => {
         <Box sx={{ mt: 2 }}>
           <Button
             component={Link}
-            href={`/Location/${product.title.toLowerCase().replaceAll(" ", "-")}`}
+            href={`/Location/${product.title.toLowerCase().replace(/\s+/g, "-")}`}
             variant="contained"
             fullWidth
           >

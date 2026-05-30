@@ -1,12 +1,13 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../../../services/API/productService";
+import { fetchProducts } from "../../../services/Api/productService";
+import {Product} from "@/types/product/product.type";
 
 const useProducts = () => {
   const isActiveUser = true;
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<Product[]>({
     // unique ID for this API call
 
     queryKey: ["products"],

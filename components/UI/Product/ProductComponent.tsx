@@ -34,14 +34,14 @@ const ProductComponent = () => {
           marginTop: 5,
         }}
       >
-        <Typography variant="h6">{error.message}</Typography>
+        <Typography variant="h6">{error?.message}</Typography>
       </Box>
     );
 
   return (
     <>
       <Box sx={{ textAlign: "center", mt: 2, color: "gray", mb: 3 }}>
-        <Typography variant="h3" fontWeight="bold">
+        <Typography variant="h3" sx={{fontWeight: "bold"}}>
           PRODUCTS
         </Typography>
       </Box>

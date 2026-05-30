@@ -3,7 +3,7 @@ import React from "react";
 import { Paper } from "@mui/material";
 
 type ChartPaperProps = {
-  children?: any;
+  children?: React.ReactNode;
   sx?: object;
 };
 

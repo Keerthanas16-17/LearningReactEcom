@@ -3,7 +3,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 type BarTypographyProps = {
-  children?: any;
+  children?: React.ReactNode;
   sx?: object;
 };
 const BarTypography = ({ children, sx = {} }: BarTypographyProps) => {

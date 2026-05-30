@@ -2,11 +2,11 @@
 import React from "react";
 import { Typography } from "@mui/material";
 
-type AgeTypographyProps = {
-  children?: any;
+type AgeInfoProp = {
+  children?: React.ReactNode;
   sx?: object;
 };
-const AgeInfo = ({ children, sx = {} }: AgeTypographyProps) => {
+const AgeInfo = ({ children, sx = {} }: AgeInfoProp) => {
   return (
     <Typography
       variant="body1"

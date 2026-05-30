@@ -8,19 +8,21 @@ import BoxAge from "../BoxAge";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
+const MAX_DAY = 31;
+const MAX_MONTH = 12;
+type AgeType = {
+  years: number;
+  months: number;
+  days: number;
+};
+
+type ErrorType = {
+  year: string;
+  month: string;
+  day: string;
+};
+
 export default function Age() {
-  interface AgeType {
-    years: number;
-    months: number;
-    days: number;
-  }
-
-  interface ErrorType {
-    year: string;
-    month: string;
-    day: string;
-  }
-
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
@@ -34,9 +36,14 @@ export default function Age() {
   });
 
   const today = dayjs();
-  const currentYear = today.year();
+  const currentYear: number = today.year();
+  const hasErrors =
+  Boolean(error.day) ||
+  Boolean(error.month) ||
+  Boolean(error.year);
+  const isDisabled = !day || !month || !year || hasErrors;
 
-  const CalculateAge = () => {
+  const calculateAge = (): void => {
     const birthDay = dayjs(
       `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`,
       "YYYY-MM-DD",
@@ -67,16 +74,15 @@ export default function Age() {
     });
 
     // for years calculate
-    const years = today.diff(birthDay, "year");
+    const years: number = today.diff(birthDay, "year");
+    const afterYears = birthDay.add(years, "year");
 
     // for months calculate
-    const months = today.diff(birthDay.add(years, "year"), "month");
+    const months: number = today.diff(afterYears, "month");
+    const afterMonths = afterYears.add(months, "month");
 
-    // foe days calculate
-    const days = today.diff(
-      birthDay.add(years, "year").add(months, "month"),
-      "day",
-    );
+    // for days calculate
+    const days: number = today.diff(afterMonths, "day");
 
     setAge({ years, months, days });
   };
@@ -106,18 +112,19 @@ export default function Age() {
               value={day}
               onChange={(e) => {
                 const value = e.target.value.replace(/\D/g, "");
+                const num = Number(value);
 
-                if (value.length === 2 && (+value < 1 || +value > 31)) {
-                  setError({
-                    ...error,
+                if (value.length === 2 && (num < 1 || num > MAX_DAY)) {
+                  setError((prev) => ({
+                    ...prev,
                     day: "Enter a valid day ",
-                  });
+                  }));
                   return;
                 }
-                setError({
-                  ...error,
+                setError((prev) => ({
+                  ...prev,
                   day: "",
-                });
+                }));
                 setDay(value);
               }}
               error={Boolean(error.day)}
@@ -139,18 +146,19 @@ export default function Age() {
               value={month}
               onChange={(e) => {
                 const value = e.target.value.replace(/\D/g, "");
+                const num = Number(value);
 
-                if (value.length === 2 && (+value < 1 || +value > 12)) {
-                  setError({
-                    ...error,
+                if (value.length === 2 && (num < 1 || num > MAX_MONTH)) {
+                  setError((prev) => ({
+                    ...prev,
                     month: "Enter a valid month ",
-                  });
+                  }));
                   return;
                 }
-                setError({
-                  ...error,
+                setError((prev) => ({
+                  ...prev,
                   month: "",
-                });
+                }));
 
                 setMonth(value);
               }}
@@ -170,21 +178,19 @@ export default function Age() {
               value={year}
               onChange={(e) => {
                 const value = e.target.value.replace(/\D/g, "");
+                const num = Number(value);
 
-                if (
-                  value.length === 4 &&
-                  (+value < 1 || +value > currentYear)
-                ) {
-                  setError({
-                    ...error,
+                if (value.length === 4 && (num < 1 || num > currentYear)) {
+                  setError((prev) => ({
+                    ...prev,
                     year: "year should  not be a future ",
-                  });
+                  }));
                   return;
                 }
-                setError({
-                  ...error,
+                setError((prev) => ({
+                  ...prev,
                   year: "",
-                });
+                }));
                 setYear(value);
               }}
               error={Boolean(error.year)}
@@ -212,15 +218,9 @@ export default function Age() {
             }}
           />
           <IconButton
-            onClick={CalculateAge}
-            disabled={
-              !day ||
-              !month ||
-              !year ||
-              Boolean(error.day) ||
-              Boolean(error.month) ||
-              Boolean(error.year)
-            }
+            onClick={calculateAge}
+            disabled={isDisabled}
+             
             sx={{
               position: "absolute",
               right: "4px",
