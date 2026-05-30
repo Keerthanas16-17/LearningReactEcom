@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
@@ -16,87 +14,35 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import { usePathname } from "next/navigation";
+
+const navItems = [
+  { label: "Login", href: "/Login", icon: <LoginIcon /> },
+  { label: "Home", href: "/", icon: <HomeIcon /> },
+  { label: "About", href: "/About", icon: <InfoIcon /> },
+  { label: "Contacts", href: "/Contacts", icon: <ContactsIcon /> },
+  { label: "Menu", href: "/Menu", icon: <MenuBookIcon /> },
+  { label: "Search", href: "/Search", icon: <SearchIcon /> },
+  { label: "Location", href: "/Location", icon: <LocationOnIcon /> },
+  { label: "Dashboard", href: "/Dashboard", icon: <DashboardIcon /> },
+  { label: "Product", href: "/Product", icon: <ShoppingBagIcon /> },
+  { label: "Logout", href: "/Logout", icon: <LogoutIcon /> },
+];
 
 export default function Navbar() {
-  const [value, setValue] = useState(0);
+  const pathname = usePathname();
 
   return (
     <Box sx={{ width: "100%" }}>
-      <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction
-          label="Login"
-          icon={<LoginIcon />}
-          component={Link}
-          href="/Login"
-        />
-
-        <BottomNavigationAction
-          label="Home"
-          icon={<HomeIcon />}
-          component={Link}
-          href="/"
-        />
-
-        <BottomNavigationAction
-          label="About"
-          icon={<InfoIcon />}
-          component={Link}
-          href="/About"
-        />
-
-        <BottomNavigationAction
-          label="Contacts"
-          icon={<ContactsIcon />}
-          component={Link}
-          href="/Contacts"
-        />
-
-        <BottomNavigationAction
-          label="Menu"
-          icon={<MenuBookIcon />}
-          component={Link}
-          href="/Menu"
-        />
-
-        <BottomNavigationAction
-          label="Search"
-          icon={<SearchIcon />}
-          component={Link}
-          href="/Search"
-        />
-
-        <BottomNavigationAction
-          label="Location"
-          icon={<LocationOnIcon />}
-          component={Link}
-          href="/Location"
-        />
-        <BottomNavigationAction
-          label="Dashboard"
-          icon={<DashboardIcon />}
-          component={Link}
-          href="/Dashboard"
-        />
-
-        <BottomNavigationAction
-          label="Product"
-          icon={<ShoppingBagIcon />}
-          component={Link}
-          href="/Product"
-        />
-
-        <BottomNavigationAction
-          label="Logout"
-          icon={<LogoutIcon />}
-          component={Link}
-          href="/Logout"
-        />
+      <BottomNavigation showLabels value={pathname}>
+        {navItems.map((item) => (
+          <BottomNavigationAction
+            key={item.label}
+            label={item.label}
+            icon={item.icon}
+            href={item.href}
+          />
+        ))}
       </BottomNavigation>
     </Box>
   );

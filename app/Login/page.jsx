@@ -1,16 +1,10 @@
-import { Box, Typography, Button } from "@mui/material";
+"use client";
+import Charts from "../../components/UI/Chart/Charts";
+
 import React from "react";
+
 const Login = () => {
-  return (
-    <Box
-      sx={{
-        textAlign: "center",
-        mt: 35,
-      }}
-    >
-      <Typography variant="h3">Login Page</Typography>
-    </Box>
-  );
+  return <Charts />;
 };
 
 export default Login;

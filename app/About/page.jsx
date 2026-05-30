@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Travel from "../../components/UI/Travel/Travel";
 const About = () => {

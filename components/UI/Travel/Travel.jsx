@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Card, CardContent, Dialog, Divider } from "@mui/material";
 import Image from "next/image";
-import { fetchTransport } from "../../../services/API/TransportApi";
+import { fetchTransport } from "../../../services/Api/TransportApi";
 import TransportType from "../../../components/UI/TransportType";
 import TravelTypography from "../../../components/UI/TravelTypography";
 import { FadeLoader } from "react-spinners";
@@ -17,14 +17,25 @@ import shipImg from "../../../assets/ship.jpg";
 import taxiImg from "../../../assets/taxi.jpg";
 import trainImg from "../../../assets/train.jpg";
 import dayjs from "dayjs";
+import { useTravel } from "../../../store/Travel/useTravel";
+
+const transportImages = {
+  bus: busImg,
+  ferry: ferryImg,
+  flight: flightImg,
+  metro: metroImg,
+  ship: shipImg,
+  taxi: taxiImg,
+  train: trainImg,
+};
 
 const Travel = () => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["transport"],
     queryFn: fetchTransport,
   });
-  const [open, setOpen] = useState(false);
-  const [selectedTravel, setSelectedTravel] = useState(null);
+
+  const { open, selectedTravel, openDialog, closeDialog } = useTravel();
 
   if (isLoading) {
     return (
@@ -51,15 +62,6 @@ const Travel = () => {
       </TravelTypography>
     );
   }
-  const transportImages = {
-    bus: busImg,
-    ferry: ferryImg,
-    flight: flightImg,
-    metro: metroImg,
-    ship: shipImg,
-    taxi: taxiImg,
-    train: trainImg,
-  };
 
   return (
     <Box
@@ -77,8 +79,7 @@ const Travel = () => {
         <Card
           key={travel.id}
           onClick={() => {
-            setSelectedTravel(travel);
-            setOpen(true);
+            openDialog(travel);
           }}
           sx={{
             width: "380px",
@@ -225,10 +226,7 @@ const Travel = () => {
 
       <Dialog
         open={open}
-        onClose={() => {
-          setOpen(false);
-          setSelectedTravel(null);
-        }}
+        onClose={closeDialog}
         sx={{
           "& .MuiDialog-paper": {
             width: "100%",

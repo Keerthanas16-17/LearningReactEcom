@@ -1,4 +1,4 @@
-import Age from "../components/UI/Travel/Age";
+import Age from "@/components/UI/AgeCalculation/Age";
 
 export default function Home() {
   return (

@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useId } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProductById } from "../../../services/API/productService";
-import InfoData from "../InfoData";
+import { fetchProductByTitle } from "@/services/Api/productService";
+import InfoData from "../../../components/UI/InfoData";
 import dayjs from "dayjs";
+import Image from "next/image";
 import {
   Box,
   Paper,
@@ -26,24 +25,28 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DiscountIcon from "@mui/icons-material/Discount";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import { CircleLoader } from "react-spinners";
-
+import { Product } from "@/types/product/product.type";
 const ProductDetails = () => {
-  const { id } = useParams();
+  const params = useParams();
+  const title = params?.title;
+  console.log(params);
 
   const reviewId = useId();
-  const [openIndex, setOpenIndex] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const {
     data: product,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["product", id],
-    queryFn: () => fetchProductById(id),
+  } = useQuery<Product>({
+    queryKey: ["product", title],
+    queryFn: () => fetchProductByTitle(title as string),
+    enabled: !!title,
     staleTime: 5000,
     refetchOnWindowFocus: false,
   });
 
+  console.log(product?.id);
   // Loading
 
   if (isLoading)
@@ -75,6 +78,8 @@ const ProductDetails = () => {
       </InfoData>
     );
 
+  if (!product) return <InfoData variant="h5">not found a product</InfoData>;
+
   return (
     <Box
       sx={{
@@ -100,11 +105,12 @@ const ProductDetails = () => {
       >
         {/* left side */}
         <Box>
-          <img
+          <Image
             src={product?.images?.[0]}
             alt={product.title}
             width={500}
             height={500}
+            priority
             style={{
               width: "100%",
               height: "100%",

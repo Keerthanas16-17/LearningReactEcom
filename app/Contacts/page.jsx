@@ -1,16 +1,9 @@
-import { Box, Typography, Button } from "@mui/material";
+"use client";
+
 import React from "react";
+import ConfettiData from "../../components/UI/Confetti/ConfettiData";
 const Contacts = () => {
-  return (
-    <Box
-      sx={{
-        textAlign: "center",
-        mt: 35,
-      }}
-    >
-      <Typography variant="h3">Contacts Page</Typography>
-    </Box>
-  );
+  return <ConfettiData />;
 };
 
 export default Contacts;

@@ -1,16 +1,8 @@
-import { Box, Typography, Button } from "@mui/material";
+"use client";
 import React from "react";
+import Dashboard from "../../components/UI/ChartApi/Dashboard";
 const Logout = () => {
-  return (
-    <Box
-      sx={{
-        textAlign: "center",
-        mt: 35,
-      }}
-    >
-      <Typography variant="h3">Logout Page</Typography>
-    </Box>
-  );
+  return <Dashboard />;
 };
 
 export default Logout;
